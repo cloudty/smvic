@@ -11,7 +11,7 @@
 			      </el-carousel-item>
 			    </el-carousel>
 			    
-			    <div class="login_box">
+			    <div class="login_box" v-if="this.userName ? false : true">
 					<div class="titles">
 						<h1>SMVIC</h1>
 						<h2>{{$t('checkTheRegistrationPlatform')}}</h2>
@@ -21,8 +21,8 @@
 						<el-form label-position="letf" :rules='rules' ref='loginInputs' 
 							:model='loginInfo'
 							class="formStyle">
-							<el-form-item prop='name'>
-						    	<el-input v-model="loginInfo.name" :placeholder="$t('input.placeHolderID')"></el-input>
+							<el-form-item prop='userid'>
+						    	<el-input v-model="loginInfo.userid" :placeholder="$t('input.placeHolderID')"></el-input>
 						    </el-form-item>
 							<el-form-item prop='password'>
 						    	<el-input v-model="loginInfo.password" type="password" :placeholder="$t('input.placeHolderPWD')"></el-input>
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-	import {getRank,getLogin} from '../api/api'
+	import {getLogin} from '../api/api'
 	import md5 from 'js-md5';
 	import headers from '../components/header'
 	import footers from '../components/footer'
@@ -106,16 +106,16 @@
 	  name: 'Index',
 	  data () {
 	    return {
-	      msg: 'Welcome to Your Vue.js App',
+	      userName:'',
 	      images:[
 	      	{name:'page1',urlName:'home_Page_1.jpg'}
 	      ],
 	      loginInfo:{
-	      	name:'',
+	      	userid:'',
 	      	password:''
 	      },
 	      rules:{
-	      	name:{required: true, message: this.$t('tips.inputName'), trigger: 'blur' },
+	      	userid:{required: true, message: this.$t('tips.inputName'), trigger: 'blur' },
 	      	password:{required: true, message: this.$t('tips.inputPassword'), trigger: 'blur'}
 	      }
 	    }
@@ -129,16 +129,23 @@
 		
 		
 	  },
-	  mouted(){
-	  	console.log(this.loginInfo)
+	  mounted(){
+	  	this.userName = sessionStorage.getItem('user');
 	  },
 	  methods:{
 	  	login(val){
 	  		this.$refs[val].validate((valid) => {
-					console.log(valid)
+					
 		          if (valid) {
 		          	this.loginInfo.password = md5(this.loginInfo.password)
-		            console.log(this.loginInfo)
+		            getLogin(this.loginInfo).then(res =>{
+		            	let data = res.data ; 
+		            	console.log(data)
+		            	
+		            	sessionStorage.setItem('user', data.name);
+		            	this.$router.go(0)
+
+		            })
 		          } else {
 		          	
 		          	
@@ -154,18 +161,7 @@
 					console.log(res.data)
 				})
 			},
-			logintest(){
-				gid:md5(121212)
-				let params = {
-					gid:'test',
-					pwd:'123456'
-				}
-				getLogin(params).then(res => {
-					console.log(res.data)
-				})
-				
-				
-			}
+			
 		}
 	}
 </script>

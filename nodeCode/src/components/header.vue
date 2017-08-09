@@ -9,10 +9,21 @@
 					<!--<div>-->
 						<div @click="changeLanguge" >{{this.$t('languge')}}</div>
 						<div>
-							<div class="">
-								{{this.$t('login')}}
+							<div class="" v-if="this.userName ? false : true">
+								<router-link to="index">{{this.$t('login')}}</router-link>
 							</div>
-							
+							<div v-if="this.userName ? true : false">
+								<el-dropdown @command="handleCommand">
+								 <span class="el-dropdown-link">
+								    {{userName}}<i class="el-icon-caret-bottom el-icon--right"></i>
+								  </span>
+								  
+								  <el-dropdown-menu slot="dropdown">
+								    <el-dropdown-item command="loginout">{{$t('loginOut')}}</el-dropdown-item>
+								     
+								  </el-dropdown-menu>
+								</el-dropdown>
+							</div>
 							
 							
 						</div>
@@ -31,10 +42,24 @@ export default {
   name: 'headDiv',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      loginStatus:false,
+      userName:sessionStorage.getItem('user')
     }
   },
+  created(){
+//console.log(this.userName)
+  	
+  },
+  mounted(){
+  	console.log(sessionStorage.getItem('user'))
+  },
   methods:{
+  	handleCommand(command){
+  		if(command == 'loginout'){
+  			sessionStorage.removeItem('user');
+  			this.$router.go(0)
+  		}
+  	},
 		changeLanguge(){
 		    	console.log(this.$i18n.locale())
 		    	if(this.$i18n.locale() == 'en'){

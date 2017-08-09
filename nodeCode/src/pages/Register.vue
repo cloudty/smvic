@@ -38,7 +38,8 @@
 				  		
 				  	</el-col>
 				    <el-col :span="11" style="float: right;">
-				    	<el-button class="registeBtn">{{$t('btn.cancel')}}</el-button>
+				    	
+				    	<router-link to="index"><el-button class="registeBtn">{{$t('btn.cancel')}}</el-button></router-link>
 				    </el-col>
 				    <el-col :span="24">
 				    	<el-checkbox v-model="checked">{{this.$t('agreeToTheTerms1')}}</el-checkbox>
@@ -50,6 +51,7 @@
 			</el-col>
 			
 		</el-col>
+		
 		<footers></footers>
 	</div>
 </template>
@@ -129,9 +131,11 @@
 	    }
 	  },
 	  created(){
-		
+		if(sessionStorage.getItem('user')){
+			this.$router.push({ path: '/index' })
+		}
 	  },
-	  mouted(){
+	  mounted(){
 	  	
 	  },
 	  methods:{

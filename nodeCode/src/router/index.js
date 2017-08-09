@@ -7,8 +7,9 @@ import Register from '@/pages/Register'
 import RegisterDone from '@/pages/RegisterDone'
 import Main from '@/pages/Main'
 import MyBusiness from '@/pages/myBusiness'
-import NewOrder from '@/pages/newOrder'
-
+import FAQ from '@/pages/FAQ'
+import onlineService from '@/pages/OnlineService'
+import IDInfo from '@/pages/IDInfo'
 
 
 Vue.use(Router)
@@ -51,47 +52,47 @@ export default new Router({
     	children: [
 	      {
 	        path: '/myBusiness',
-	        name: 'newOrder',
+	        name: 'MyBusiness',
 	        component: MyBusiness
 	      }
 	    ]
     },{
-    	path: '/newOrder',
+    	path: '/faq',
     	name: 'FAQ',
     	component: Main,
     	leaf: true,
     	iconCls: 'el-icon-message',
     	children: [
 	      {
-	        path: '/newOrder',
+	        path: '/faq',
 	        name: 'FAQ',
-	        component: NewOrder
+	        component: FAQ
 	      }
 	    ]
     },{
-    	path: '/main',
-    	name: 'MyBusiness',
+    	path: '/onlineService',
+    	name: 'onlineService',
     	component: Main,
     	leaf: true,
     	iconCls: 'el-icon-message',
     	children: [
 	      {
-	        path: '/myBusiness',
+	        path: '/onlineService',
 	        name: 'onlineService',
-	        component: MyBusiness
+	        component: onlineService
 	      }
 	    ]
     },{
-    	path: '/main',
-    	name: 'MyBusiness',
+    	path: '/idInfo',
+    	name: 'idInfo',
     	component: Main,
     	leaf: true,
     	iconCls: 'el-icon-message',
     	children: [
 	      {
-	        path: '/myBusiness',
+	        path: '/idInfo',
 	        name: 'IDInfo',
-	        component: MyBusiness
+	        component: IDInfo
 	      }
 	    ]
     }
